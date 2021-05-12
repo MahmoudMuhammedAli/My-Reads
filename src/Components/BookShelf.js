@@ -1,19 +1,27 @@
 import React from 'react'
 import Book from './Book'
-export default function BookShelf(props) {
+import PropTypes from 'prop-types'
+
+export default function BookShelf({ title, books, value }) {
+    console.log(books);
     return (
         <div className="bookshelf">
-            <h2 className="bookshelf-title">{props.title}</h2>
+            <h2 className="bookshelf-title">{title}</h2>
             <div className="bookshelf-books">
                 <ol className="books-grid">
-                    <li>
-                        <Book />
-                    </li>
-                    <li>
-                        <Book />
-                    </li>
+                    {books.map(book => (
+                        <li key={book.id}>
+                            <Book shelf={value} book={book}/>
+                        </li>
+                    ))}
                 </ol>
             </div>
         </div>
     )
+}
+BookShelf.propTypes = {
+    title: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    books: PropTypes.array.isRequired,
+    //TODO: onchange 
 }

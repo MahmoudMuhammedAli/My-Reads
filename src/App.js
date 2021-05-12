@@ -1,5 +1,5 @@
 import React from 'react'
-//import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Main from './pages/Main'
 import Search from './pages/Search'
@@ -13,7 +13,12 @@ class BooksApp extends React.Component {
       books: [],
     };
   }
-
+  async componentDidMount() {
+    const books = await BooksAPI.getAll().catch((e) => console.error(e));
+    this.setState({
+      books,
+    });
+  }
   render() {
     return (
       <div className="app">
@@ -21,7 +26,7 @@ class BooksApp extends React.Component {
           <Switch>
           
             <Route exact path="/search" render={() => (<Search />)} />
-            <Route exact path="/" render={() => (<Main />)}/>
+            <Route exact path="/" render={() => (<Main books={this.state.books}/>)}/>
             
           </Switch>
         </Router>
