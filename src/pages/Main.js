@@ -10,13 +10,13 @@ export default function Main(props) {
             </div>
             <div className="list-books-content">
                 <div>
-                    <BookShelf title="Currently Reading" value="current" books={props.books.filter((book) => book.shelf === "current")}/>
-                    <BookShelf title="Want To Read" value="want" books={props.books.filter((book) => book.shelf === "want")}/>
+                    <BookShelf title="Currently Reading" value="currentlyReading" books={props.books.filter((book) => book.shelf === "currentlyReading")}/>
+                    <BookShelf title="Want To Read" value="wantToRead" books={props.books.filter((book) => book.shelf === "wantToRead")}/>
                     <BookShelf title="Read" value="read" books={props.books.filter((book) => book.shelf === "read")}/>
                 </div>
             </div>
             <div className="open-search">
-                <Link to="/search">
+                <Link to="/search"> 
                     <button>Add a book</button>
                 </Link>
             </div>
