@@ -1,6 +1,6 @@
 import React from 'react'
 import BookShelf from '../Components/BookShelf'
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 export default function Main(props) {
     console.log(props.books);
     return (
@@ -10,13 +10,13 @@ export default function Main(props) {
             </div>
             <div className="list-books-content">
                 <div>
-                    <BookShelf title="Currently Reading" value="currentlyReading" books={props.books.filter((book) => book.shelf === "currentlyReading")}/>
-                    <BookShelf title="Want To Read" value="wantToRead" books={props.books.filter((book) => book.shelf === "wantToRead")}/>
-                    <BookShelf title="Read" value="read" books={props.books.filter((book) => book.shelf === "read")}/>
+                    <BookShelf title="Currently Reading" value="currentlyReading" onShelfChange={props.onShelfChange} books={props.books.filter((book) => book.shelf === "currentlyReading")} />
+                    <BookShelf title="Want To Read" value="wantToRead" onShelfChange={props.onShelfChange} books={props.books.filter((book) => book.shelf === "wantToRead")} />
+                    <BookShelf title="Read" value="read" onShelfChange={props.onShelfChange} books={props.books.filter((book) => book.shelf === "read")} />
                 </div>
             </div>
             <div className="open-search">
-                <Link to="/search"> 
+                <Link to="/search">
                     <button>Add a book</button>
                 </Link>
             </div>
