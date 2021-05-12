@@ -1,9 +1,9 @@
-import React from 'react'
-import * as BooksAPI from './BooksAPI'
-import './App.css'
-import Main from './pages/Main'
-import Search from './pages/Search'
-import { Route, Switch} from "react-router-dom";
+import React from "react";
+import * as BooksAPI from "./BooksAPI";
+import "./App.css";
+import Main from "./pages/Main";
+import Search from "./pages/Search";
+import { Route, Switch } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
 class BooksApp extends React.Component {
@@ -36,15 +36,22 @@ class BooksApp extends React.Component {
       <div className="app">
         <Router>
           <Switch>
-          
-            <Route exact path="/search" render={() => (<Search />)} />
-            <Route exact path="/" render={() => (<Main books={this.state.books} onShelfChange={this.handleShelfChange}/>)}/>
-            
+            <Route exact path="/search" render={() => <Search />} />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Main
+                  books={this.state.books}
+                  onShelfChange={this.handleShelfChange}
+                />
+              )}
+            />
           </Switch>
         </Router>
       </div>
-    )
+    );
   }
 }
 
-export default BooksApp
+export default BooksApp;
