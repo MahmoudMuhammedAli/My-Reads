@@ -3,7 +3,8 @@ import * as BooksAPI from "./BooksAPI";
 import "./App.css";
 import Main from "./pages/Main";
 import Search from "./pages/Search";
-import { Route, Switch } from "react-router-dom";
+import Lost from "./pages/Lost"
+import { Route, Switch, Redirect } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
 class BooksApp extends React.Component {
@@ -13,7 +14,7 @@ class BooksApp extends React.Component {
       books: [],
     };
   }
-  //TODO: alter handleChange
+  //TODO: Enhance handleChange
   handleShelfChange = (book, shelf) => {
     BooksAPI.update(book, shelf)
       .then(() => {
@@ -47,6 +48,8 @@ class BooksApp extends React.Component {
                 />
               )}
             />
+            <Route exact path="/404" render={() => <Lost />} />
+            <Redirect to="/404" />
           </Switch>
         </Router>
       </div>

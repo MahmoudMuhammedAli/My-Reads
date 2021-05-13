@@ -196,3 +196,24 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+
+.lost{
+  width:50%;
+  margin:0 auto;
+  text-align: center;
+  color: rgb(0, 0, 0);  
+}
+.lost h1{
+  color: red;
+  font-size:7em;
+}
+.lost p{
+  font-size:2em;
+}
+.lost button{
+  background-color: aqua;
+  border: none;
+  border-radius: 50px;
+  padding:20px;
+  cursor: pointer;
+}
