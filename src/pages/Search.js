@@ -1,104 +1,68 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Book from "../Components/Book";
 import * as BooksAPI from "../BooksAPI";
-import { Book } from "../Components/Book";
 
-const SEARCH_TERMS = [
-  "Android",
-  "Art",
-  "Artificial Intelligence",
-  "Astronomy",
-  "Austen",
-  "Baseball",
-  "Basketball",
-  "Bhagat",
-  "Biography",
-  "Brief",
-  "Business",
-  "Camus",
-  "Cervantes",
-  "Christie",
-  "Classics",
-  "Comics",
-  "Cook",
-  "Cricket",
-  "Cycling",
-  "Desai",
-  "Design",
-  "Development",
-  "Digital Marketing",
-  "Drama",
-  "Drawing",
-  "Dumas",
-  "Education",
-  "Everything",
-  "Fantasy",
-  "Film",
-  "Finance",
-  "First",
-  "Fitness",
-  "Football",
-  "Future",
-  "Games",
-  "Gandhi",
-  "Homer",
-  "Horror",
-  "Hugo",
-  "Ibsen",
-  "Journey",
-  "Kafka",
-  "King",
-  "Lahiri",
-  "Larsson",
-  "Learn",
-  "Literary Fiction",
-  "Make",
-  "Manage",
-  "Marquez",
-  "Money",
-  "Mystery",
-  "Negotiate",
-  "Painting",
-  "Philosophy",
-  "Photography",
-  "Poetry",
-  "Production",
-  "Programming",
-  "React",
-  "Redux",
-  "River",
-  "Robotics",
-  "Rowling",
-  "Satire",
-  "Science Fiction",
-  "Shakespeare",
-  "Singh",
-  "Swimming",
-  "Tale",
-  "Thrun",
-  "Time",
-  "Tolstoy",
-  "Travel",
-  "Ultimate",
-  "Virtual Reality",
-  "Web Development",
-  "iOS",
-];
+class Search extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    changeShelf: PropTypes.func.isRequired,
+  };
 
-export default function Search() {
-  return (
-    <div className="search-books">
-      <div className="search-books-bar">
-        <Link to="/">
-          <button className="close-search">Close</button>
-        </Link>
-        <div className="search-books-input-wrapper">
-          <input type="text" placeholder="Search by title or author" />
+  state = {
+    query: "",
+    newBooks: [],
+    searchErr: false,
+  };
+
+  getBooks = (event) => {
+    const query = event.target.value;
+    this.setState({ query });
+
+    // if user input => run the search
+    if (query) {
+      BooksAPI.search(query.trim(), 20).then((books) => {
+        books.length > 0
+          ? this.setState({ newBooks: books, searchErr: false })
+          : this.setState({ newBooks: [], searchErr: true });
+      });
+
+      // if query is empty => reset state to default
+    } else this.setState({ newBooks: [], searchErr: false });
+  };
+
+  render() {
+    const { query, newBooks, searchErr } = this.state;
+    const { books, changeShelf } = this.props;
+
+    return <div className="search-books">
+        <div className="search-books-bar">
+          <Link className="close-search" to="/">
+            Close
+          </Link>
+          <div className="search-books-input-wrapper">
+            <input type="text" placeholder="Search by title or author" value={query} onChange={this.getBooks} />
+          </div>
         </div>
-      </div>
-      <div className="search-books-results">
-        <ol className="books-grid" />
-      </div>
-    </div>
-  );
+        <div className="search-books-results">
+          {newBooks.length > 0 && <div>
+              <h3>Search returned {newBooks.length} books </h3>
+              <ol className="books-grid">
+                {newBooks.map((book) => (
+                  <Book
+                    book={book}
+                    books={books}
+                    onShelfChange={changeShelf}
+                  />
+                ))}
+              </ol>
+            </div>}
+          {searchErr && <h3>
+              Search did not return any books. Please try again!
+            </h3>}
+        </div>
+      </div>;
+  }
 }
+export default Search;
