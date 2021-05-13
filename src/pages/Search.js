@@ -61,6 +61,7 @@ class Search extends Component {
                     key={book.id}
                     book={book}
                     books={books}
+                    shelf="none"
                     onShelfChange={changeShelf}
                   />
                 ))}

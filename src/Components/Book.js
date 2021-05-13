@@ -1,7 +1,9 @@
 import React from "react";
 
 export default function Book({ book, shelf, onShelfChange }) {
-  const { title, authors } = book;
+  const { title, authors, imageLinks } = book;
+  const thumbnail =
+    imageLinks && imageLinks.thumbnail ? imageLinks.thumbnail : "";
 
   return (
     <div className="book">
@@ -11,7 +13,7 @@ export default function Book({ book, shelf, onShelfChange }) {
           style={{
             width: 128,
             height: 188,
-            backgroundImage: `url(${book.imageLinks.thumbnail})`,
+            backgroundImage: `url(${thumbnail})`,
           }}
         />
         <div className="book-shelf-changer">
