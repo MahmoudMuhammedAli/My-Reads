@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Book from "../Components/Book";
 import * as BooksAPI from "../BooksAPI";
-
+import SearchItems from "../Components/searchItems";
 class Search extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
@@ -36,33 +36,46 @@ class Search extends Component {
     const { query, newBooks, searchErr } = this.state;
     const { books, changeShelf } = this.props;
 
-    return <div className="search-books">
+    return (
+      <div className="search-books">
         <div className="search-books-bar">
           <Link className="close-search" to="/">
             Close
           </Link>
           <div className="search-books-input-wrapper">
-            <input type="text" placeholder="Search by title or author" value={query} onChange={this.getBooks} />
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={query}
+              onChange={this.getBooks}
+            />
           </div>
         </div>
         <div className="search-books-results">
-          {newBooks.length > 0 && <div>
+          {newBooks.length > 0 && (
+            <div>
               <h3>Search returned {newBooks.length} books </h3>
               <ol className="books-grid">
                 {newBooks.map((book) => (
                   <Book
+                    key={book.id}
                     book={book}
                     books={books}
                     onShelfChange={changeShelf}
                   />
                 ))}
               </ol>
-            </div>}
-          {searchErr && <h3>
-              Search did not return any books. Please try again!
-            </h3>}
+            </div>
+          )}
+          {searchErr && (
+            <h3>
+              {query} is not found, Check out search items.
+              <SearchItems />
+            </h3>
+          )}
         </div>
-      </div>;
+      </div>
+    );
   }
 }
 export default Search;

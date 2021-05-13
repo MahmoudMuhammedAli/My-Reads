@@ -2,7 +2,6 @@ import React from "react";
 import BookShelf from "../Components/BookShelf";
 import { Link } from "react-router-dom";
 export default function Main(props) {
-  console.log(props.books);
   return (
     <div className="list-books">
       <div className="list-books-title">

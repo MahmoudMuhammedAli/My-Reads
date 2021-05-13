@@ -14,7 +14,6 @@ class BooksApp extends React.Component {
       books: [],
     };
   }
-  //TODO: Enhance handleChange
   handleShelfChange = (book, shelf) => {
     BooksAPI.update(book, shelf)
       .then(() => {

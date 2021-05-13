@@ -3,7 +3,6 @@ import Book from "./Book";
 import PropTypes from "prop-types";
 
 export default function BookShelf({ title, books, value, onShelfChange }) {
-  console.log(books);
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
