@@ -4,38 +4,109 @@ import { Link } from "react-router-dom";
 import Book from "../Components/Book";
 import * as BooksAPI from "../BooksAPI";
 import SearchItems from "../Components/searchItems";
+const SEARCH_TERMS = [
+  "Android",
+  "Art",
+  "Artificial Intelligence",
+  "Astronomy",
+  "Austen",
+  "Baseball",
+  "Basketball",
+  "Bhagat",
+  "Biography",
+  "Brief",
+  "Business",
+  "Camus",
+  "Cervantes",
+  "Christie",
+  "Classics",
+  "Comics",
+  "Cook",
+  "Cricket",
+  "Cycling",
+  "Desai",
+  "Design",
+  "Development",
+  "Digital Marketing",
+  "Drama",
+  "Drawing",
+  "Dumas",
+  "Education",
+  "Everything",
+  "Fantasy",
+  "Film",
+  "Finance",
+  "First",
+  "Fitness",
+  "Football",
+  "Future",
+  "Games",
+  "Gandhi",
+  "Homer",
+  "Horror",
+  "Hugo",
+  "Ibsen",
+  "Journey",
+  "Kafka",
+  "King",
+  "Lahiri",
+  "Larsson",
+  "Learn",
+  "Literary Fiction",
+  "Make",
+  "Manage",
+  "Marquez",
+  "Money",
+  "Mystery",
+  "Negotiate",
+  "Painting",
+  "Philosophy",
+  "Photography",
+  "Poetry",
+  "Production",
+  "Programming",
+  "React",
+  "Redux",
+  "River",
+  "Robotics",
+  "Rowling",
+  "Satire",
+  "Science Fiction",
+  "Shakespeare",
+  "Singh",
+  "Swimming",
+  "Tale",
+  "Thrun",
+  "Time",
+  "Tolstoy",
+  "Travel",
+  "Ultimate",
+  "Virtual Reality",
+  "Web Development",
+  "iOS",
+];
 class Search extends Component {
-  static propTypes = {
-    books: PropTypes.array.isRequired,
-    changeShelf: PropTypes.func.isRequired,
-  };
-
   state = {
-    query: "",
-    newBooks: [],
-    searchErr: false,
+    userQuery: "",
+    found: [],
+    err: false,
   };
 
-  getBooks = (event) => {
-    const query = event.target.value;
-    this.setState({ query });
-
-    // if user input => run the search
-    if (query) {
-      BooksAPI.search(query.trim(), 20).then((books) => {
-        books.length > 0
-          ? this.setState({ newBooks: books, searchErr: false })
-          : this.setState({ newBooks: [], searchErr: true });
-      });
-
-      // if query is empty => reset state to default
-    } else this.setState({ newBooks: [], searchErr: false });
+  find = (event) => {
+    const userQuery = event.target.value;
+    this.setState({ userQuery });
+    userQuery
+      ? (() => {
+          BooksAPI.search(userQuery.trim()).then((results) => {
+            if (results.length > 0)
+              this.setState({ found: results, err: false });
+            else this.setState({ found: [], err: true });
+          });
+        })()
+      : this.setState({ found: [], err: false });
   };
 
   render() {
-    const { query, newBooks, searchErr } = this.state;
-    const { books, changeShelf } = this.props;
-
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -46,32 +117,30 @@ class Search extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              value={query}
-              onChange={this.getBooks}
+              value={this.state.userQuery}
+              onChange={this.find}
             />
           </div>
         </div>
         <div className="search-books-results">
-          {newBooks.length > 0 && (
+          {this.state.found.length > 0 && (
             <div>
-              <h3>Search returned {newBooks.length} books </h3>
               <ol className="books-grid">
-                {newBooks.map((book) => (
+                {this.state.found.map((book) => (
                   <Book
-                    key={book.id}
                     book={book}
-                    books={books}
                     shelf="none"
-                    onShelfChange={changeShelf}
+                    onShelfChange={this.props.handleShelfChange}
+                    key={book.id}
                   />
                 ))}
               </ol>
             </div>
           )}
-          {searchErr && (
+          {this.state.err && (
             <h3>
-              {query} is not found, Check out search items.
-              <SearchItems />
+              {this.state.userQuery} is not found, Check out search items.
+              <SearchItems terms={SEARCH_TERMS} />
             </h3>
           )}
         </div>
@@ -80,3 +149,7 @@ class Search extends Component {
   }
 }
 export default Search;
+Search.propTypes = {
+  books: PropTypes.array.isRequired,
+  handleShelfChange: PropTypes.func.isRequired,
+};
