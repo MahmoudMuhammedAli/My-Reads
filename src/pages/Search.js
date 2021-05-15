@@ -107,6 +107,17 @@ class Search extends Component {
   };
 
   render() {
+    const books = this.props.books;
+    console.log(books);
+    const getShelf = (book)=>{
+      let s = "none";
+     books.forEach((b) => {
+        if (b.id === book.id) {
+          s= b.shelf;
+        }
+      })
+      return s ; 
+    }
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -129,7 +140,7 @@ class Search extends Component {
                 {this.state.found.map((book) => (
                   <Book
                     book={book}
-                    shelf="none"
+                    shelf={getShelf(book)}
                     onShelfChange={this.props.handleShelfChange}
                     key={book.id}
                   />
