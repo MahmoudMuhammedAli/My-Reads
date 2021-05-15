@@ -108,16 +108,15 @@ class Search extends Component {
 
   render() {
     const books = this.props.books;
-    console.log(books);
-    const getShelf = (book)=>{
+    const getShelf = (book) => {
       let s = "none";
-     books.forEach((b) => {
+      books.forEach((b) => {
         if (b.id === book.id) {
-          s= b.shelf;
+          s = b.shelf;
         }
-      })
-      return s ; 
-    }
+      });
+      return s;
+    };
     return (
       <div className="search-books">
         <div className="search-books-bar">
